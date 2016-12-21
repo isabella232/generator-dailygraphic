@@ -1,3 +1,12 @@
+// less import
+require('../css/graphic.less');
+
+import d3 from 'd3';
+import * as _ from 'underscore';
+import BASE from './base.js';
+import HELPERS from './helpers.js'
+
+
 // Global vars
 var pymChild = null;
 var isMobile = false;
@@ -7,15 +16,10 @@ var dataSeries = [];
  * Initialize graphic
  */
 var onWindowLoaded = function() {
-    if (Modernizr.svg) {
-        formatData();
-
-        pymChild = new pym.Child({
-            renderCallback: render
-        });
-    } else {
-        pymChild = new pym.Child({});
-    }
+    formatData();
+    pymChild = new pym.Child({
+        renderCallback: render
+    });
 
     pymChild.onMessage('on-screen', function(bucket) {
         ANALYTICS.trackEvent('on-screen', bucket);
@@ -68,10 +72,10 @@ var formatData = function() {
  */
 var render = function(containerWidth) {
     if (!containerWidth) {
-        containerWidth = DEFAULT_WIDTH;
+        containerWidth = BASE.DEFAULT_WIDTH;
     }
 
-    if (containerWidth <= MOBILE_THRESHOLD) {
+    if (containerWidth <= BASE.MOBILE_THRESHOLD) {
         isMobile = true;
     } else {
         isMobile = false;
@@ -160,7 +164,7 @@ var renderLineChart = function(config) {
 
     var colorScale = d3.scale.ordinal()
         .domain(_.pluck(config['data'], 'name'))
-        .range([COLORS['red3'], COLORS['yellow3'], COLORS['blue3'], COLORS['orange3'], COLORS['teal3']]);
+        .range([HELPERS.COLORS['red3'], HELPERS.COLORS['yellow3'], HELPERS.COLORS['blue3'], HELPERS.COLORS['orange3'], HELPERS.COLORS['teal3']]);
 
     /*
      * Render the HTML legend.
@@ -171,7 +175,7 @@ var renderLineChart = function(config) {
         .data(config['data'])
         .enter().append('li')
             .attr('class', function(d, i) {
-                return 'key-item ' + classify(d['name']);
+                return 'key-item ' + HELPERS.classify(d['name']);
             });
 
     legend.append('b')
@@ -205,9 +209,9 @@ var renderLineChart = function(config) {
         .ticks(ticksX)
         .tickFormat(function(d, i) {
             if (isMobile) {
-                return '\u2019' + fmtYearAbbrev(d);
+                return '\u2019' + BASE.fmtYearAbbrev(d);
             } else {
-                return fmtYearFull(d);
+                return BASE.fmtYearFull(d);
             }
         });
 
@@ -221,7 +225,7 @@ var renderLineChart = function(config) {
      */
     chartElement.append('g')
         .attr('class', 'x axis')
-        .attr('transform', makeTranslate(0, chartHeight))
+        .attr('transform', HELPERS.makeTranslate(0, chartHeight))
         .call(xAxis);
 
     chartElement.append('g')
@@ -241,7 +245,7 @@ var renderLineChart = function(config) {
 
     chartElement.append('g')
         .attr('class', 'x grid')
-        .attr('transform', makeTranslate(0, chartHeight))
+        .attr('transform', HELPERS.makeTranslate(0, chartHeight))
         .call(xAxisGrid()
             .tickSize(-chartHeight, 0, 0)
             .tickFormat('')
@@ -273,7 +277,7 @@ var renderLineChart = function(config) {
         .enter()
         .append('path')
             .attr('class', function(d, i) {
-                return 'line ' + classify(d['name']);
+                return 'line ' + HELPERS.classify(d['name']);
             })
             .attr('stroke', function(d) {
                 return colorScale(d['name']);
