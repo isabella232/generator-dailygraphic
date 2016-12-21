@@ -1,0 +1,23 @@
+{
+  "name": "generator-dailygraphic",
+  "version": "0.0.1",
+  "description": "NPR daily graphic generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "yeoman-generator",
+    "d3",
+    "dataviz",
+    "graphic"
+  ],
+  "author": "Tyler Fisher",
+  "license": "MIT",
+  "files": [
+    "generators"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^1.0.1"
+  }
+}

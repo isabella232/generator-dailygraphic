@@ -1,0 +1,20 @@
+{
+  "name": "npr-line-chart-template",
+  "version": "1.0.0",
+  "description": "NPR Visuals Graphic",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "yeoman-generator",
+    "d3",
+    "dataviz",
+    "graphic"
+  ],
+  "author": "NPR Visuals",
+  "license": "MIT",
+  "dependencies": {
+    "d3": "3.5.17",
+    "underscore": "1.8.3"
+  }
+}
