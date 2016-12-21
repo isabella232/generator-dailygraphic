@@ -1,4 +1,5 @@
 var Generator = require('yeoman-generator')
+var exec = require('child_process').exec
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -6,7 +7,11 @@ module.exports = class extends Generator {
 
     this.createDriveSheet = function() {
       const filename = this.name + '.xlsx'
-      this.spawnCommand('gdrive', ['import', filename, '>', 'echo', ''])
+      const gdriveCmd = 'gdrive import ' + this.destinationRoot() + '/' + filename
+      const awk = "awk -F ' ' '{print $2}' > .google-sheet-id"
+
+      // using exec so we can pipe lol
+      exec(gdriveCmd + ' | ' + awk)
     }
   }
 
@@ -79,11 +84,16 @@ module.exports = class extends Generator {
   end() {
     this.log('Initializing a git repo and creating a Google Spreadsheet for you')
 
-    this.spawnCommand('git', ['init'])
+    this.spawnCommandSync('gh', ['re', '-N', this.name, '-O', 'nprapps'])
+    this.spawnCommandSync('git', ['init'])
+    this.spawnCommandSync('git', ['add', '.'])
+    this.spawnCommandSync('git', ['commit', '-m', 'Initial commit from Yeoman.'])
+    this.spawnCommandSync('git', ['remote', 'add', 'origin', 'https://github.com/nprapps/' + this.name + '.git'])
+    this.spawnCommandSync('git', ['push', 'origin', 'master'])
 
     this.spawnCommand('mv', ['sheet.xlsx', this.name + '.xlsx'])
     if (this.gdrive) {
-      this.createDriveSheet();
+      this.createDriveSheet()
     }
   }
 }
