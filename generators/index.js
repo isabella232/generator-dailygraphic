@@ -77,8 +77,16 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copy(this.baseFolder + '/**/*', this.destinationRoot())
-    this.fs.copy(this.templateFolder + '/**/*', this.destinationRoot())
+    this.fs.copy(this.baseFolder + '/**/*', this.destinationRoot(), {
+      globOptions: {
+        dot: true
+      }
+    })
+    this.fs.copy(this.templateFolder + '/**/*', this.destinationRoot(), {
+      globOptions: {
+        dot: true
+      }
+    })
   }
 
   install() {
