@@ -6,5 +6,8 @@ module.exports = {
         pym_loader_url: '//pym.nprapps.org/pym-loader.v1.min.js'
     },
     CAREBOT_ENABLED: true,
-    CAREBOT_URL: '//carebot.nprapps.org/carebot-tracker.v0.min.js'
+    CAREBOT_URL: '//carebot.nprapps.org/carebot-tracker.v0.min.js',
+    GOOGLE_ANALYTICS: {
+        ACCOUNT_ID: 'UA-5828686-75'
+    }
 }

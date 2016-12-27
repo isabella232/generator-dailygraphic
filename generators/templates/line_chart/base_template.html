@@ -33,11 +33,14 @@
 
     <!-- Configuration -->
     <script type="text/javascript">
-        // GOOGLE_ANALYTICS_ACCOUNT_ID = '{{ GOOGLE_ANALYTICS.ACCOUNT_ID }}';
-        // GOOGLE_ANALYTICS_PROJECT_SLUG = '{{ slug }}';
+        GOOGLE_ANALYTICS_ACCOUNT_ID = '{{ CONFIG.GOOGLE_ANALYTICS.ACCOUNT_ID }}';
+        GOOGLE_ANALYTICS_PROJECT_SLUG = '{{ CONFIG.SLUG }}';
     </script>
 
     <!-- CSS + LESS -->
+    {% if DEPLOYMENT_TARGET != 'localhost' %}
+    <link rel="stylesheet" href="css/main.css">
+    {% endif %}
 </head>
 <body>
     {% block content %}
@@ -46,7 +49,11 @@
 
     {% endblock content %}
 
-    <script type="text/javascript" src="//pym.nprapps.org/pym.v1.min.js"></script> 
+    <script type="text/javascript" src="{{ CONFIG.PYM['pym_url'] }}"></script>
+    {% if DEPLOYMENT_TARGET != 'localhost' %}
+    <script type="text/javascript" href="js/bundle.min.js">
+    {% else %}
     <script src="js/bundle.js"></script>
+    {% endif %}
 </body>
 </html>

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- <title>{% if DEPLOYMENT_TARGET %}{{ DEPLOYMENT_TARGET }} : {% endif %}{{ slug }}</title> -->
-    <title>Graphic page</title>
+    <title>{% if CONFIG.DEPLOYMENT_TARGET %}{{ CONFIG.DEPLOYMENT_TARGET }} : {% endif %}{{ CONFIG.SLUG }}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
     <style type="text/css">
@@ -109,8 +108,7 @@
 
     <header class="parent-header">
         <div class="segment">
-            <!-- <h1 class="{{ DEPLOYMENT_TARGET or 'localhost' }}">{{ DEPLOYMENT_TARGET or 'localhost' }}</h1> -->
-            <h1 class="localhost">localhost</h1>
+            <h1 class="{{ DEPLOYMENT_TARGET or 'localhost' }}">{{ CONFIG.DEPLOYMENT_TARGET or 'localhost' }}</h1>
         </div>
 
         <div class="segment">
@@ -132,15 +130,15 @@
         <div class="right">
 
                 <div class="segment">
-                    <a class="btn localhost" href="http://localhost:8000/graphics/{{ slug }}/">localhost &raquo;</a>
+                    <a class="btn localhost" href="http://localhost:8000/graphics/{{ CONFIG.SLUG }}/">localhost &raquo;</a>
                 </div>
 
                 <div class="segment">
-                    <a class="btn staging" href="//stage-apps.npr.org/dailygraphics/graphics/{{ slug }}/" target="_blank">staging &raquo;</a>
+                    <a class="btn staging" href="//stage-apps.npr.org/dailygraphics/graphics/{{ CONFIG.SLUG }}/" target="_blank">staging &raquo;</a>
                 </div>
 
                 <div class="segment">
-                    <a class="btn production" href="https://apps.npr.org/dailygraphics/graphics/{{ slug }}/" target="_blank">production &raquo;</a>
+                    <a class="btn production" href="https://apps.npr.org/dailygraphics/graphics/{{ CONFIG.SLUG }}/" target="_blank">production &raquo;</a>
                 </div>
 
                 {% if COPY_GOOGLE_DOC_KEY %}
@@ -164,21 +162,21 @@
 
 <!-- textarea contents -->
     <textarea readonly="readonly" rows="10" cols="50">
-<div id="responsive-embed-{{ slug }}"></div>
+<div id="responsive-embed-{{ CONFIG.SLUG }}"></div>
 <script type=text/javascript>
     (function(jQuery) {
         if (typeof jQuery !== 'undefined' && typeof jQuery.getScript === 'function') {
             // add randomness to id to support for multiple graphic instances in one story
-            var el = document.getElementById("responsive-embed-{{slug}}");
+            var el = document.getElementById("responsive-embed-{{SLUG}}");
             el.id = el.id + "-" + Math.random().toString(36).substr(2,5);
-            jQuery.getScript("{{ PYM['pym_url'] }}").done(function () {
+            jQuery.getScript("{{ CONFIG.PYM['pym_url'] }}").done(function () {
                 jQuery(function () { // Wait for page load
                     var pymParent = new pym.Parent(
                         el.id,
-                        '//apps.npr.org/dailygraphics/graphics/{{ slug }}/child.html',
+                        '//apps.npr.org/dailygraphics/graphics/{{ CONFIG.SLUG }}/child.html',
                         {}
                     );
-                    jQuery.getScript("{{ CAREBOT_URL }}").done(function () {
+                    jQuery.getScript("{{ CONFIG.CAREBOT_URL }}").done(function () {
                         var tracker = new CarebotTracker.VisibilityTracker(el.id, function(result) {
                             // Ignore Carebot events to empty embeds, keeps listening after unloading the page
                             if (pymParent.el.getElementsByTagName('iframe').length !== 0) {
@@ -210,14 +208,14 @@
 
 <!-- textarea contents -->
     <textarea readonly="readonly" rows="10" cols="50">
-<p data-pym-src="//{{ PRODUCTION_S3_BUCKET['bucket_name'] }}/{{ PROJECT_SLUG }}/graphics/{{ slug }}/child.html">Loading...</p><script src="{{PYM['pym_loader_url']}}" type="text/javascript"></script>
+<p data-pym-src="//{{ PRODUCTION_S3_BUCKET['bucket_name'] }}/dailygraphics/graphics/{{ CONFIG.SLUG }}/child.html">Loading...</p><script src="{{PYM['pym_loader_url']}}" type="text/javascript"></script>
     </textarea>
 <!-- end textarea contents -->
 
     </div>
 
-    <script type="text/javascript" src="//pym.nprapps.org/pym.v1.min.js"></script>
-    <script type="text/javascript" src="{{ CAREBOT_URL }}"></script>
+    <script type="text/javascript" src="{{ CONFIG.PYM['pym_url'] }}"></script>
+    <script type="text/javascript" src="{{ CONFIG.CAREBOT_URL }}"></script>
 
     <script type="text/javascript">
         var resizeSidebarEl = document.querySelector('#resize-sidebar');

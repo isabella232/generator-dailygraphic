@@ -7,6 +7,7 @@ const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const config = require('./webpack.config.js');
+const prodConfig = require('./webpack-prod.config.js');
 const context = require('./context');
 
 // setup templates
@@ -33,28 +34,29 @@ app.use(webpackHotMiddleware(compiler));
 
 // routes
 app.get('/', function(req, res) {
-  const templateContext = context.makeContext('sheet.xlsx');
+  const templateContext = context.makeContext('test-pym-embed.xlsx');
   res.render('parent_template.html', templateContext);
 });
 
 app.get('/child.html', function(req, res) {
-  const templateContext = context.makeContext('sheet.xlsx');
+  const templateContext = context.makeContext('test-pym-embed.xlsx');
   res.render('child_template.html', templateContext);
 });
 
 app.get('/render/', function(req, res) {
-  const data = context.makeContext('sheet.xlsx');
+  const data = context.makeContext('test-pym-embed.xlsx');
+  const prodCompiler = webpack(prodConfig);
+  app.use(middleware)
 
-  compiler.run(function(err, stats) {
+  prodCompiler.run(function(err, stats) {
     app.render('parent_template.html', data, function(err, html) {
       fs.writeFile('./dist/index.html', html);
     }) 
     app.render('child_template.html', data, function(err, html) {
       fs.writeFile('./dist/child.html', html);
     })
+    res.status(201).send('Rendered graphic!');
   })
-
-  res.send('Rendered!');
 }); 
 
 app.listen('8000', function() {
