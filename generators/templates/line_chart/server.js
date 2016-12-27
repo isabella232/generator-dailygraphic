@@ -33,7 +33,12 @@ app.use(webpackHotMiddleware(compiler));
 
 // routes
 app.get('/', function(req, res) {
-  const templateContext = context.makeContext('test-gdrive-pulling.xlsx');
+  const templateContext = context.makeContext('test-pym-embed.xlsx');
+  res.render('parent_template.html', templateContext);
+});
+
+app.get('/child.html', function(req, res) {
+  const templateContext = context.makeContext('test-pym-embed.xlsx');
   res.render('child_template.html', templateContext);
 });
 
