@@ -33,14 +33,29 @@ app.use(webpackHotMiddleware(compiler));
 
 // routes
 app.get('/', function(req, res) {
-  const templateContext = context.makeContext('test-pym-embed.xlsx');
+  const templateContext = context.makeContext('sheet.xlsx');
   res.render('parent_template.html', templateContext);
 });
 
 app.get('/child.html', function(req, res) {
-  const templateContext = context.makeContext('test-pym-embed.xlsx');
+  const templateContext = context.makeContext('sheet.xlsx');
   res.render('child_template.html', templateContext);
 });
+
+app.get('/render/', function(req, res) {
+  const data = context.makeContext('sheet.xlsx');
+
+  compiler.run(function(err, stats) {
+    app.render('parent_template.html', data, function(err, html) {
+      fs.writeFile('./dist/index.html', html);
+    }) 
+    app.render('child_template.html', data, function(err, html) {
+      fs.writeFile('./dist/child.html', html);
+    })
+  })
+
+  res.send('Rendered!');
+}); 
 
 app.listen('8000', function() {
   console.log('app started on port 8000');
