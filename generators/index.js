@@ -1,18 +1,20 @@
 var Generator = require('yeoman-generator')
 var execSync = require('child_process').execSync
 
+var GRAPHICS_FOLDER = '0B1a-N4Y4VPXIUkJHSDlQZTY3cDA'
+
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts)
 
     this.createDriveSheet = function() {
       const filePath = this.destinationRoot() + '/' + this.name + '.xlsx'
-      const gdriveCmd = 'gdrive import ' + filePath
+      const gdriveCmd = `gdrive import -p ${GRAPHICS_FOLDER} ${filePath}`
       const awk = "awk -F ' ' '{print $2}' > .google-sheet-id"
 
       // using exec so we can pipe lol
       execSync(gdriveCmd + ' | ' + awk)
-      execSync('gdrive update --name "' + this.name + '" $(cat ' + this.destinationRoot() + '/.google-sheet-id) ' + filePath)
+      execSync(`gdrive update --name "${this.name}" $(cat ${this.destinationRoot()}/.google-sheet-id) ${filePath}`)
     }
   }
 
