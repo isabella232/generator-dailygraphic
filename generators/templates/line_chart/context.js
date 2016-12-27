@@ -1,3 +1,4 @@
+var graphicConfig = require('./graphic_config.js');
 var xlsx = require('xlsx');
 
 var makeCopyData = function(path) {
@@ -31,7 +32,8 @@ var makeCopyData = function(path) {
 
 var makeContext = function(path) {
     context = {
-        COPY: makeCopyData(path)
+        COPY: makeCopyData(path),
+        CONFIG: graphicConfig
     }
 
     return context;
