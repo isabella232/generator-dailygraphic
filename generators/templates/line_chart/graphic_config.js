@@ -1,4 +1,3 @@
-let deploymentTarget = null;
 let bucket = null;
 
 var exports = module.exports = {};
@@ -8,11 +7,11 @@ const S3_BUCKETS = {
     staging: 'stage-apps.npr.org'
 }
 
-const buildConfig = function() {
+const buildConfig = function(target) {
     return {
-        DEPLOYMENT_TARGET: deploymentTarget,
+        DEPLOYMENT_TARGET: target,
         S3_BUCKET: bucket, 
-        SLUG: 'test-pym-embed',
+        SLUG: 'test-deployment',
         PYM: {
             pym_url: '//pym.nprapps.org/pym.v1.min.js',
             pym_loader_url: '//pym.nprapps.org/pym-loader.v1.min.js'
@@ -29,5 +28,5 @@ exports.configureTargets = function(target) {
     deploymentTarget = target;
     bucket = S3_BUCKETS[target];
 
-    return buildConfig();
+    return buildConfig(target);
 }

@@ -29,11 +29,11 @@ var makeCopyData = function(path) {
     return data;
 }
 
-var makeContext = function(path, target) {
+var makeContext = function(target) {
     var graphicConfig = require('./graphic_config.js').configureTargets(target);
 
     context = {
-        COPY: makeCopyData(path),
+        COPY: makeCopyData(`${graphicConfig.SLUG}.xlsx`),
         CONFIG: graphicConfig
     }
 

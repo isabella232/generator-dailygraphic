@@ -34,25 +34,38 @@ app.use(webpackHotMiddleware(compiler));
 
 // routes
 app.get('/', function(req, res) {
-  const templateContext = context.makeContext('test-server-changes.xlsx', 'localhost');
+  const templateContext = context.makeContext('localhost');
   res.render('parent_template.html', templateContext);
 });
 
 app.get('/child.html', function(req, res) {
-  const templateContext = context.makeContext('test-server-changes.xlsx', 'localhost');
+  const templateContext = context.makeContext('localhost');
   res.render('child_template.html', templateContext);
 });
 
 app.get('/render/', function(req, res) {
-  const data = context.makeContext('test-server-changes.xlsx', 'staging');
+  const data = context.makeContext('staging');
   const prodCompiler = webpack(prodConfig);
   app.use(middleware)
 
   prodCompiler.run(function(err, stats) {
+    if (err) {
+      console.error(`webpack failed: ${err}`);
+      return;
+    }
+
     app.render('parent_template.html', data, function(err, html) {
+      if (err) {
+        console.error(`parent_template.html failed: ${err}`);
+        return;
+      }
       fs.writeFile('./dist/index.html', html);
     }) 
     app.render('child_template.html', data, function(err, html) {
+      if (err) {
+        console.error(`child_template.html failed: ${err}`);
+        return;
+      }
       fs.writeFile('./dist/child.html', html);
     })
     res.status(201).send('Rendered graphic!');

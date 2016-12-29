@@ -100,20 +100,23 @@ module.exports = class extends Generator {
   }
 
   end() {
-    this.log('Initializing a git repo and creating a Google Spreadsheet for you')
+    this.log('Initializing a git repo and setting up a spreadsheet for you.')
+
+    this.spawnCommandSync('git', ['init'])
+    this.spawnCommandSync('git', ['add', '.'])
+    this.spawnCommandSync('git', ['commit', '-m', 'Initial commit from Yeoman.'])
+
+    this.spawnCommand('mv', ['sheet.xlsx', this.name + '.xlsx'])
 
     if (this.github) {
+      this.log('Pushing git repo to github')
       this.spawnCommandSync('gh', ['re', '-N', this.name, '-O', 'nprapps'])
-      this.spawnCommandSync('git', ['init'])
-      this.spawnCommandSync('git', ['add', '.'])
-      this.spawnCommandSync('git', ['commit', '-m', 'Initial commit from Yeoman.'])
       this.spawnCommandSync('git', ['remote', 'add', 'origin', 'https://github.com/nprapps/' + this.name + '.git'])
       this.spawnCommandSync('git', ['push', 'origin', 'master'])
     }
 
-    this.spawnCommand('mv', ['sheet.xlsx', this.name + '.xlsx'])
-
     if (this.gdrive) {
+      this.log('Uploading spreadsheet to Google Drive')
       this.createDriveSheet()
     }
   }
