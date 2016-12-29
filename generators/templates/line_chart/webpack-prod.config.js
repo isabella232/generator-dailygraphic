@@ -5,12 +5,13 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry: [
-        path.join(__dirname, 'js/graphic.js')
-    ],
+    entry: {
+        bundle: path.join(__dirname, 'js/graphic.js'),
+        analytics: path.join(__dirname, 'js/analytics.js')
+    },
     output: {
         path: path.join(__dirname, '/dist/js/'),
-        filename: 'bundle.js',
+        filename: '[name].min.js',
         publicPath: '/'
     },
     module: {
@@ -27,7 +28,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('../css/[name].css'),
+        new ExtractTextPlugin('../css/[name].min.css'),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 join_vars: false,

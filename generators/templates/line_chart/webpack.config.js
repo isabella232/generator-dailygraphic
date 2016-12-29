@@ -4,13 +4,16 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-    entry: [
-        'webpack-hot-middleware/client?reload=true',
-        path.join(__dirname, 'js/graphic.js')
-    ],
+    entry: {
+        bundle: [
+            'webpack-hot-middleware/client?reload=true',
+            path.join(__dirname, 'js/graphic.js'),
+        ],
+        analytics: path.join(__dirname, 'js/analytics.js')
+    },
     output: {
         path: path.join(__dirname, '/js/'),
-        filename: 'bundle.js',
+        filename: '[name].js',
         publicPath: '/js/'
     },
     plugins: [

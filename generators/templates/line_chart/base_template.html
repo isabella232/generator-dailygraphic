@@ -38,8 +38,11 @@
     </script>
 
     <!-- CSS + LESS -->
-    {% if DEPLOYMENT_TARGET != 'localhost' %}
-    <link rel="stylesheet" href="css/main.css">
+    {% if CONFIG.DEPLOYMENT_TARGET !== 'localhost' %}
+    <link rel="stylesheet" href="css/bundle.min.css">
+    <script type="text/javascript" src="js/analytics.min.js"></script>
+    {% else %}    
+    <script type="text/javascript" src="js/analytics.js"></script>
     {% endif %}
 </head>
 <body>
@@ -48,10 +51,9 @@
         The child template content goes here!
 
     {% endblock content %}
-
     <script type="text/javascript" src="{{ CONFIG.PYM['pym_url'] }}"></script>
-    {% if DEPLOYMENT_TARGET != 'localhost' %}
-    <script type="text/javascript" href="js/bundle.min.js">
+    {% if CONFIG.DEPLOYMENT_TARGET !== 'localhost' %}
+    <script type="text/javascript" src="js/bundle.min.js"></script>
     {% else %}
     <script src="js/bundle.js"></script>
     {% endif %}

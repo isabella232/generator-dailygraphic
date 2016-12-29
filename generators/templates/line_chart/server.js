@@ -34,17 +34,17 @@ app.use(webpackHotMiddleware(compiler));
 
 // routes
 app.get('/', function(req, res) {
-  const templateContext = context.makeContext('test-pym-embed.xlsx');
+  const templateContext = context.makeContext('test-server-changes.xlsx', 'localhost');
   res.render('parent_template.html', templateContext);
 });
 
 app.get('/child.html', function(req, res) {
-  const templateContext = context.makeContext('test-pym-embed.xlsx');
+  const templateContext = context.makeContext('test-server-changes.xlsx', 'localhost');
   res.render('child_template.html', templateContext);
 });
 
 app.get('/render/', function(req, res) {
-  const data = context.makeContext('test-pym-embed.xlsx');
+  const data = context.makeContext('test-server-changes.xlsx', 'staging');
   const prodCompiler = webpack(prodConfig);
   app.use(middleware)
 

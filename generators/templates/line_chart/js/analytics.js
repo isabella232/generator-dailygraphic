@@ -1,6 +1,7 @@
 /*
  * Module for tracking standardized analytics.
  */
+var helpers = require('./helpers');
 
 var ANALYTICS = (function () {
     /*
@@ -28,14 +29,14 @@ var ANALYTICS = (function () {
         ga('set', 'page', window.location.pathname);
 
         // Custom dimensions & metrics
-        var parentUrl = getParameterByName('parentUrl') || '';
+        var parentUrl = helpers.getParameterByName('parentUrl') || '';
         var parentHostname = '';
 
         if (parentUrl) {
-            parentHostname = urlToLocation(parentUrl).hostname;
+            parentHostname = helpers.urlToLocation(parentUrl).hostname;
         }
 
-        var initialWidth = getParameterByName('initialWidth') || '';
+        var initialWidth = helpers.getParameterByName('initialWidth') || '';
 
         var customData = {};
         customData[DIMENSION_PARENT_URL] = parentUrl;
@@ -65,10 +66,10 @@ var ANALYTICS = (function () {
         }
 
         // Track details about the parent with each event
-        var parentUrl = getParameterByName('parentUrl') || '';
+        var parentUrl = helpers.getParameterByName('parentUrl') || '';
         var parentHostname = '';
         if (parentUrl) {
-            parentHostname = urlToLocation(parentUrl).hostname;
+            parentHostname = helpers.urlToLocation(parentUrl).hostname;
         }
         eventData[DIMENSION_PARENT_URL] = parentUrl;
         eventData[DIMENSION_PARENT_HOSTNAME] = parentHostname;

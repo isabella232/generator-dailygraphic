@@ -1,4 +1,3 @@
-var graphicConfig = require('./graphic_config.js');
 var xlsx = require('xlsx');
 
 var makeCopyData = function(path) {
@@ -30,7 +29,9 @@ var makeCopyData = function(path) {
     return data;
 }
 
-var makeContext = function(path) {
+var makeContext = function(path, target) {
+    var graphicConfig = require('./graphic_config.js').configureTargets(target);
+
     context = {
         COPY: makeCopyData(path),
         CONFIG: graphicConfig
