@@ -6,7 +6,7 @@ To try it out, first install the dependencies:
 
 ```
 npm install -g yo gh
-brew install gdrive
+brew install gdrive yarn
 ```
 
 This uses:
@@ -14,12 +14,14 @@ This uses:
 - Yeoman, obviously
 - [node-gh](https://github.com/node-gh/gh) for automatic Github repo creation
 - [gdrive](https://github.com/prasmussen/gdrive) for automatic Google Sheet creation
+- [Yarn](https://yarnpkg.com) for JS dependency installation because it caches the installs, making graphic generation a lot faster than with npm.
 
 Then, clone the repo and link it so Yeoman can use it.
 
 ```
 git clone https://github.com/nprapps/generator-dailygraphic.git
 cd generator-dailygraphic
+npm install
 npm link
 ```
 
@@ -46,4 +48,3 @@ Inside the graphic folder, you can run the Express/Webpack server for local deve
 To update your spreadsheet from Google Drive, run `npm run text`.
 
 To deploy, run `npm run deploy_stage`. (Production deployment not built yet.)
-
