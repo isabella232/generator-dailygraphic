@@ -1,7 +1,7 @@
 var Generator = require('yeoman-generator')
 var execSync = require('child_process').execSync
 
-var GRAPHICS_FOLDER = '0B6jLQISCZzBkMjZWQ08tNDlya1E'
+var GRAPHICS_FOLDER = '0B6jLQISCZzBkWDJ1YzFtQzlTQ2s'
 
 module.exports = class extends Generator {
   constructor(args, opts) {
