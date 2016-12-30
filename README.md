@@ -35,7 +35,7 @@ First, name the graphic (this is poorly named, this is really a slug, so it shou
 
 Then, choose your chart template. **Important: only line chart works right now!**.
 
-Then, you can optionally create a Github repo and a Google Drive spreadsheet.
+Then, you can optionally create a Github repo and a Google Drive spreadsheet. The first time you run these, you will have to go through some sort of process to authorize your Github/Google account.
 
 This process will create a folder with an initialized git repo with your new graphic in the folder where you ran `yo dailygraphic` from.
 
@@ -45,4 +45,5 @@ Inside the graphic folder, you can run the Express/Webpack server for local deve
 
 To update your spreadsheet from Google Drive, run `npm run text`.
 
-To deploy, run `npm run deploy_stage`.
+To deploy, run `npm run deploy_stage`. (Production deployment not built yet.)
+
