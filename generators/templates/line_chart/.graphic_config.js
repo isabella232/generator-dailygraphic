@@ -11,7 +11,7 @@ const buildConfig = function(target) {
     return {
         DEPLOYMENT_TARGET: target,
         S3_BUCKET: bucket, 
-        SLUG: 'test-deployment',
+        SLUG: '<%= slug %>',
         PYM: {
             pym_url: '//pym.nprapps.org/pym.v1.min.js',
             pym_loader_url: '//pym.nprapps.org/pym-loader.v1.min.js'
@@ -20,7 +20,8 @@ const buildConfig = function(target) {
         CAREBOT_URL: '//carebot.nprapps.org/carebot-tracker.v0.min.js',
         GOOGLE_ANALYTICS: {
             ACCOUNT_ID: 'UA-5828686-75'
-        }
+        },
+        GOOGLE_DOC_ID: '<%= id %>'
     }
 }
 

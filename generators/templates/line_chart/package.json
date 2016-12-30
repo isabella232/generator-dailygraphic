@@ -4,9 +4,9 @@
   "description": "NPR Visuals Graphic",
   "scripts": {
     "build": "curl http://127.0.0.1:8000/render/",
-    "deploy_stage": "npm build && ./bin/deploy.js --target staging",
-    "start": "webpack-dashboard -- nodemon --ignore node_modules/ --ignore 'webpack.*.js' ./server.js",
-    "text": "gdrive export -f --mime application/vnd.openxmlformats-officedocument.spreadsheetml.sheet $(cat .google-sheet-id)",
+    "deploy_stage": "npm build && node bin/deploy.js --target staging",
+    "start": "webpack-dashboard -- nodemon --ignore node_modules/ --ignore 'webpack.*.js' --ignore bin/ ./server.js",
+    "text": "node bin/text.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

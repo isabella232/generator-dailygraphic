@@ -1,7 +1,7 @@
 var Generator = require('yeoman-generator')
 var execSync = require('child_process').execSync
 
-var GRAPHICS_FOLDER = '0B1a-N4Y4VPXIUkJHSDlQZTY3cDA'
+var GRAPHICS_FOLDER = '0B6jLQISCZzBkMjZWQ08tNDlya1E'
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -10,11 +10,13 @@ module.exports = class extends Generator {
     this.createDriveSheet = function() {
       const filePath = this.destinationRoot() + '/' + this.name + '.xlsx'
       const gdriveCmd = `gdrive import -p ${GRAPHICS_FOLDER} ${filePath}`
-      const awk = "awk -F ' ' '{print $2}' > .google-sheet-id"
+      const awk = "awk -F ' ' '{print $2}'"
 
       // using exec so we can pipe lol
-      execSync(gdriveCmd + ' | ' + awk)
-      execSync(`gdrive update --name "${this.name}" $(cat ${this.destinationRoot()}/.google-sheet-id) ${filePath}`)
+      const buffer = execSync(gdriveCmd + ' | ' + awk);
+      this.googleID = buffer.toString('utf8', 0, buffer.length - 1);
+      const update = `gdrive update --name "${this.name}" ${this.googleID} ${filePath}`
+      execSync(update)
     }
   }
 
@@ -102,22 +104,31 @@ module.exports = class extends Generator {
   end() {
     this.log('Initializing a git repo and setting up a spreadsheet for you.')
 
+    this.spawnCommandSync('mv', ['sheet.xlsx', this.name + '.xlsx'])
+
+    if (this.gdrive) {
+      this.log('Uploading spreadsheet to Google Drive')
+      this.createDriveSheet()
+    }
+
+    this.fs.copyTpl(
+      this.templatePath(`${this.graphicType}/.graphic_config.js`),
+      this.destinationPath('graphic_config.js'),
+      {
+        slug: this.name,
+        id: this.googleID ? this.googleID : ''
+      }
+    )
+
     this.spawnCommandSync('git', ['init'])
     this.spawnCommandSync('git', ['add', '.'])
     this.spawnCommandSync('git', ['commit', '-m', 'Initial commit from Yeoman.'])
-
-    this.spawnCommand('mv', ['sheet.xlsx', this.name + '.xlsx'])
 
     if (this.github) {
       this.log('Pushing git repo to github')
       this.spawnCommandSync('gh', ['re', '-N', this.name, '-O', 'nprapps'])
       this.spawnCommandSync('git', ['remote', 'add', 'origin', 'https://github.com/nprapps/' + this.name + '.git'])
       this.spawnCommandSync('git', ['push', 'origin', 'master'])
-    }
-
-    if (this.gdrive) {
-      this.log('Uploading spreadsheet to Google Drive')
-      this.createDriveSheet()
     }
   }
 }
