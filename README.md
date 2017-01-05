@@ -2,11 +2,12 @@
 
 This is an _experimental, work in progress_ [Yeoman](http://yeoman.io) generator for creating NPR-styled d3 graphics.
 
-To try it out, first install the dependencies:
+To try it out, first install the dependencies and setup auth for gdrive:
 
 ```
 npm install -g yo gh
 brew install gdrive yarn
+gdrive list
 ```
 
 This uses:
