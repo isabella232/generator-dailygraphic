@@ -1,26 +1,30 @@
-'use strict';
-
 var path = require('path');
 var webpack = require('webpack');
+var CONFIG = require('./graphic_config.js').configureTargets('localhost');
 
 module.exports = {
     entry: {
         bundle: [
             'webpack-hot-middleware/client?reload=true',
-            path.join(__dirname, 'js/graphic.js'),
+            path.resolve(path.join('./graphics', CONFIG.SLUG, 'js/graphic.js')),
         ],
-        analytics: path.join(__dirname, 'js/analytics.js')
+        analytics: path.resolve(path.join('graphics', CONFIG.SLUG, 'js/analytics.js'))
     },
     output: {
         path: path.join(__dirname, '/js/'),
         filename: '[name].js',
-        publicPath: '/js/'
+        publicPath: path.join('/graphics', CONFIG.SLUG, '/js/')
     },
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
     ],
+    resolve: {
+        root: [
+            path.resolve('./js')
+        ]
+    },
     module: {
         loaders: [
             {
