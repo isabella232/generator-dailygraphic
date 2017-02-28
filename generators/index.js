@@ -53,7 +53,8 @@ module.exports = class extends Generator {
           'Stacked Column Chart',
           'Stacked Grouped Column Chart',
           'State Grid Map'
-        ]
+        ],
+        pageSize: 16
       },
       {
         type: 'confirm',
