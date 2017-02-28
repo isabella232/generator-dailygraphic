@@ -72,7 +72,8 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'path',
         message: 'Where should this graphic be installed? (relative to home directory)',
-        default: 'src/graphics-server/graphics'
+        default: 'src/graphics-server/graphics',
+        store: true
       }
     ]).then((answers) => {
       this.name = answers.name
