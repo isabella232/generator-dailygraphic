@@ -79,7 +79,7 @@ module.exports = class extends Generator {
       this.name = answers.name
       this.graphicType = answers.graphicType.toLowerCase().replace(' ', '_')
       this.github = answers.github
-      this.gdrive = answers.gdrive,
+      this.gdrive = answers.gdrive
       this.path = answers.path
     })
   }
