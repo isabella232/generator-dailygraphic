@@ -1,5 +1,6 @@
 var Generator = require('yeoman-generator')
 var execSync = require('child_process').execSync
+var os = require('os');
 
 var GRAPHICS_FOLDER = '0B6jLQISCZzBkWDJ1YzFtQzlTQ2s'
 
@@ -65,17 +66,24 @@ module.exports = class extends Generator {
         name: 'gdrive',
         message: 'Would you like to use Google Drive?',
         default: true
+      },
+      {
+        type: 'input',
+        name: 'path',
+        message: 'Where should this graphic be installed? (relative to home directory)',
+        default: 'src/graphics-server/graphics'
       }
     ]).then((answers) => {
       this.name = answers.name
       this.graphicType = answers.graphicType.toLowerCase().replace(' ', '_')
       this.github = answers.github
-      this.gdrive = answers.gdrive
+      this.gdrive = answers.gdrive,
+      this.path = answers.path
     })
   }
 
   configuring() {
-    this.destinationRoot([this.destinationRoot(), this.name].join('/'))
+    this.destinationRoot([os.homedir(), this.path, this.name].join('/'))
     this.baseFolder = [this.sourceRoot(), '_base'].join('/')
     this.templateFolder = [this.sourceRoot(), this.graphicType].join('/')
   }
