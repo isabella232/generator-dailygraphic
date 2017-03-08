@@ -40,12 +40,4 @@ Then, choose your chart template. **Important: only line chart works right now!*
 
 Then, you can optionally create a Github repo and a Google Drive spreadsheet. The first time you run these, you will have to go through some sort of process to authorize your Github/Google account.
 
-This process will create a folder with an initialized git repo with your new graphic in the folder where you ran `yo dailygraphic` from.
-
-## Using the generated graphic
-
-Inside the graphic folder, you can run the Express/Webpack server for local development by running `npm start`. Try updating the less once you have the local server running! OOOOOOH!
-
-To update your spreadsheet from Google Drive, run `npm run text`.
-
-To deploy, run `npm run deploy_stage`. (Production deployment not built yet.)
+Finally, you'll be asked where the graphic should be installed. The first time you run this, there won't be a default, but it will remember your last entry. To serve these graphics with the [graphics-server prototype](https://github.com/nprapps/graphics-server), you should set this default to the graphics folder inside the graphics-server repo.
